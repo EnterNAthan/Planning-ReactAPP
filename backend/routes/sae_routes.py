@@ -1,12 +1,12 @@
-from flask import Flask, request, jsonify
-from ..data.database import db
-from ..routes.__init__ import sae_bp
+from flask import request, jsonify
+from data.database import db
+from routes import sae_bp
 
 # Get toutes les sae
 @sae_bp.route('/saes', methods=['GET'])
 def get_saes():
     """All saes"""
-    from ..models.models import Sae
+    from models.models import Sae
     saes = Sae.query.all()
     result = [
         {
@@ -21,7 +21,7 @@ def get_saes():
 @sae_bp.route('/saes/<int:sae_id>', methods=['GET'])
 def get_saes_by_id(sae_id):
     """ Get SAE ID"""
-    from ..models.models import Sae
+    from models.models import Sae
     sae = Sae.query.get(sae_id)
     
     # valide que sae existe
@@ -40,7 +40,7 @@ def get_saes_by_id(sae_id):
 @sae_bp.route('/saes', methods=['POST'])
 def create_sae():
     """post créer une sae"""
-    from ..models.models import Sae
+    from models.models import Sae
     data = request.get_json()
     nom = data.get('nom')
     semestre_id = data.get('semestre_id')
@@ -62,7 +62,7 @@ def create_sae():
 @sae_bp.route('/saes/<int:sae_id>', methods=['PUT'])
 def update_sae(sae_id):
     """Update Sae"""
-    from ..models.models import Sae
+    from models.models import Sae
     sae = Sae.query.get(sae_id)
     if not sae:
         return jsonify({"Error":"Pas de Sae à cette id"}),404
@@ -86,7 +86,7 @@ def update_sae(sae_id):
 @sae_bp.route('/saes/<int:sae_id>', methods=['DELETE'])
 def delete_sae(sae_id):
     """Delete SAE"""
-    from ..models.models import Sae
+    from models.models import Sae
     sae = Sae.query.get(sae_id)
     
     if not sae:

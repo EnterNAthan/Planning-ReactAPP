@@ -1,62 +1,38 @@
-from ..app import create_app
-from ..data.database import db
-from ..models.models import Semestre, Ressource, Sae, Planning
+# Script pour insérer des données fictives dans la base
+from models.models import Semestre, Ressource, Sae
+from data.database import db
+from flask import Flask
 
-def create_seed_data():
-    """Crée les données de base"""
-    
-    # Créer 2 semestres
-    s1 = Semestre(nom="S1", annee="2025-2026")
-    s2 = Semestre(nom="S2", annee="2025-2026")
-    
-    db.session.add(s1)
-    db.session.add(s2)
-    db.session.commit()
-    
-    # Créer 2 ressources par semestre
-    ressources = [
-        Ressource(nom="Python Web", semestre_id=s1.id),
-        Ressource(nom="Base de Données", semestre_id=s1.id),
-        Ressource(nom="JavaScript Avancé", semestre_id=s2.id),
-        Ressource(nom="Architecture Logiciel", semestre_id=s2.id),
-    ]
-    
-    # Créer 2 SAE par semestre
-    saes = [
-        Sae(nom="SAE 1.01 - Site Web", semestre_id=s1.id),
-        Sae(nom="SAE 1.02 - Application Mobile", semestre_id=s1.id),
-        Sae(nom="SAE 2.01 - API REST", semestre_id=s2.id),
-        Sae(nom="SAE 2.02 - DevOps", semestre_id=s2.id),
-    ]
-    
-    for ressource in ressources:
-        db.session.add(ressource)
-    
-    for sae in saes:
-        db.session.add(sae)
-    
-    db.session.commit()
-    
-    print(" Données de base créées !")
-    print(f" Semestres: {len([s1, s2])}")
-    print(f" Ressources: {len(ressources)}")
-    print(f" SAE: {len(saes)}")
+def seed():
+	app = Flask(__name__)
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///planning.db'
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+	db.init_app(app)
 
-def reset_database():
-    """Remet à zéro la base de données"""
-    db.drop_all()
-    db.create_all()
-    create_seed_data()
-    print(" Base de données réinitialisée !")
+	with app.app_context():
+		# Nettoyage
+		db.drop_all()
+		db.create_all()
 
-if __name__ == '__main__':
-    app = create_app()
-    
-    with app.app_context():
-        # Choix : créer ou reset
-        choice = input("Voulez-vous (c)réer ou (r)eset la DB ? [c/r]: ")
-        
-        if choice.lower() == 'r':
-            reset_database()
-        else:
-            create_seed_data()
+		# Création de 2 semestres
+		s1 = Semestre(nom="S5", annee="2024-2025")
+		s2 = Semestre(nom="S6", annee="2024-2025")
+		db.session.add_all([s1, s2])
+		db.session.commit()
+
+		# Création de 2 ressources (liées à s1 et s2)
+		r1 = Ressource(nom="Mathématiques avancées", semestre_id=s1.id)
+		r2 = Ressource(nom="Programmation Web", semestre_id=s2.id)
+		db.session.add_all([r1, r2])
+		db.session.commit()
+
+		# Création de 2 SAE (liées à s1 et s2)
+		sae1 = Sae(nom="SAE Projet Data", semestre_id=s1.id)
+		sae2 = Sae(nom="SAE DevOps", semestre_id=s2.id)
+		db.session.add_all([sae1, sae2])
+		db.session.commit()
+
+		print("Données fictives insérées !")
+
+if __name__ == "__main__":
+	seed()

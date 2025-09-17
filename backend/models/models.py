@@ -1,6 +1,7 @@
-from ..data.database import db
+from data.database import db
 from datetime import datetime
-
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Semestre(db.Model):
@@ -16,7 +17,7 @@ class Semestre(db.Model):
 
     #Relations
     ressources = db.relationship('Ressource', backref='semestre')
-    saes = db.relationship('SAE', backref='semestre')
+    saes = db.relationship('Sae', backref='semestre')
     # Mauvaise Relations à ne pas faire double relations  et mauvaise logique sinon faudras faire planning.semestre.ressource
     #plannings = db.relationship('Planning', backref='semestre')
 
@@ -29,6 +30,13 @@ class Semestre(db.Model):
     def __repr__(self):
         return f'<SEMESTRE {self.nom} - {self.annee}>' 
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nom': self.nom,
+            'annee': self.annee,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
 
 class Ressource(db.Model):
     __tablename__ ='ressources'
@@ -51,11 +59,17 @@ class Ressource(db.Model):
         
     def __repr__(self):
         return f'<Ressource {self.nom}>'
-
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nom': self.nom,
+            'semestre_id': self.semestre_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
 
 class Sae(db.Model):
     __tablename__ = 'saes'
-
     #Presque la meme Table que Ressource
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(100), nullable=False)
@@ -73,6 +87,14 @@ class Sae(db.Model):
     def __repr__(self):
         return f'<SAE {self.nom}>'
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nom': self.nom,
+            'semestre_id': self.semestre_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
+        
 class Planning(db.Model):
     __tablename__ = 'planning'
 
@@ -100,8 +122,9 @@ class Planning(db.Model):
         self.salle = salle
     
     def __repr__(self):
-        activite = self.activite.nom if self.ressource else (self.sae.nom if self.sae else "Aucune activité")
-        return f'<Planning de {activite} - Jour -{self.jour_semaine} {self.heure_debut}-{self.heure_fin} Salle: {self.salle}>'
+    # ✅ Utilisez self.ressource et self.sae directement
+        activite = self.ressource.nom if self.ressource else (self.sae.nom if self.sae else "Aucune activité")
+        return f'<Planning de {activite} - Jour {self.jour_semaine} {self.heure_debut}-{self.heure_fin} Salle: {self.salle}>'
 
 
     @property

@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify
-from ..data.database import db
-from ..routes.__init__ import semestre_bp
+from flask import request, jsonify
+from data.database import db  
+from routes import semestre_bp 
 
 # Get tout les semestres
 @semestre_bp.route('/semestres', methods=['GET'])
 def get_semestres():
     """Récupére tous les semestres"""
     #Evite les import circulaire
-    from ..models.models import Semestre
+    from models.models import Semestre
     semestres = Semestre.query.all()
     result = [
         {
@@ -22,7 +22,7 @@ def get_semestres():
 @semestre_bp.route('/semestres/<int:semestre_id>', methods=['GET'])
 def get_semestre(semestre_id):
     """Récupére un semestre par son ID"""
-    from ..models.models import Semestre
+    from models.models import Semestre
     semestre = Semestre.query.get(semestre_id)
     
     # valide si le semestre existe (pas de validate en dehors pour l'instant)
@@ -41,7 +41,7 @@ def get_semestre(semestre_id):
 @semestre_bp.route('/semestres/<int:semestre_id>/ressources', methods=['GET'])
 def get_ressources_by_semestre(semestre_id):
     """Récupere toutes les ressouce par semestres"""
-    from ..models.models import Semestre
+    from models.models import Semestre
     semestre = Semestre.query.get(semestre_id)
     if not semestre:
         return jsonify({"error": "Semestre non trouvé"}), 404
@@ -59,7 +59,7 @@ def get_ressources_by_semestre(semestre_id):
 @semestre_bp.route('/semestres/<int:semestre_id>/saes', methods=['GET'])
 def get_saes_by_semestre(semestre_id):
     """Récupere toutes les Sae par semestre """
-    from ..models.models import Semestre
+    from models.models import Semestre
     semestre = Semestre.query.get(semestre_id)
     if not semestre:
         return jsonify({"Error" : "Semestre non Trouvé"})
@@ -77,7 +77,7 @@ def get_saes_by_semestre(semestre_id):
 @semestre_bp.route('/semestres', methods=['POST'])
 def create_semestre():
     """Créer un semestre"""
-    from ..models.models import Semestre
+    from models.models import Semestre
     data = request.get_json()
     new_nom = data.get("nom")
     new_annee = data.get("annee")
@@ -100,7 +100,7 @@ def create_semestre():
 @semestre_bp.route('/semestres/<int:semestre_id>', methods=['PUT'])
 def update_semestre(semestre_id):
     """Met à jour un semestre par son ID"""
-    from ..models.models import Semestre
+    from models.models import Semestre
     semestre = Semestre.query.get(semestre_id)
     
     # valide le semestre (pour l'instant je gére les verifs dans les routes pas de validate )
@@ -128,7 +128,7 @@ def update_semestre(semestre_id):
 @semestre_bp.route('/semestres/<int:semestre_id>', methods=['DELETE'])
 def delete_semestre(semestre_id):
     """Supprime un semestre par son ID"""
-    from ..models.models import Semestre
+    from models.models import Semestre
     semestre = Semestre.query.get(semestre_id)
     
     if not semestre:
