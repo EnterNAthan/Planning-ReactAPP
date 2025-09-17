@@ -1,13 +1,13 @@
 from ..app import create_app
-from database import db
-from ..models.models import Semestre, Ressource, SAE, Planning
+from ..data.database import db
+from ..models.models import Semestre, Ressource, Sae, Planning
 
 def create_seed_data():
     """Crée les données de base"""
     
     # Créer 2 semestres
-    s1 = Semestre(nom="Semestre 1", annee=2024)
-    s2 = Semestre(nom="Semestre 2", annee=2024)
+    s1 = Semestre(nom="S1", annee="2025-2026")
+    s2 = Semestre(nom="S2", annee="2025-2026")
     
     db.session.add(s1)
     db.session.add(s2)
@@ -23,10 +23,10 @@ def create_seed_data():
     
     # Créer 2 SAE par semestre
     saes = [
-        SAE(nom="SAE 1.01 - Site Web", semestre_id=s1.id),
-        SAE(nom="SAE 1.02 - Application Mobile", semestre_id=s1.id),
-        SAE(nom="SAE 2.01 - API REST", semestre_id=s2.id),
-        SAE(nom="SAE 2.02 - DevOps", semestre_id=s2.id),
+        Sae(nom="SAE 1.01 - Site Web", semestre_id=s1.id),
+        Sae(nom="SAE 1.02 - Application Mobile", semestre_id=s1.id),
+        Sae(nom="SAE 2.01 - API REST", semestre_id=s2.id),
+        Sae(nom="SAE 2.02 - DevOps", semestre_id=s2.id),
     ]
     
     for ressource in ressources:
