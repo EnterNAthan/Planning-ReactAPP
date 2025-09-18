@@ -122,7 +122,7 @@ class Planning(db.Model):
         self.salle = salle
     
     def __repr__(self):
-    # ✅ Utilisez self.ressource et self.sae directement
+    # Utilisez self.ressource et self.sae directement
         activite = self.ressource.nom if self.ressource else (self.sae.nom if self.sae else "Aucune activité")
         return f'<Planning de {activite} - Jour {self.jour_semaine} {self.heure_debut}-{self.heure_fin} Salle: {self.salle}>'
 
