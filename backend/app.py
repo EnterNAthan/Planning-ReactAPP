@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from data.database import db, init_db
 from routes.semestre_routes import semestre_bp  
 from routes.sae_routes import sae_bp
@@ -6,6 +7,8 @@ from routes.ressource_routes import ressource_bp
 
 def create_app():
     app = Flask(__name__)
+    # Configuration CORS - SOLUTION SIMPLE
+    CORS(app)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///planning.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     

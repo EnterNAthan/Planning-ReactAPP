@@ -3,11 +3,11 @@ import { Ressource, SAE, Semestre } from "../types/types";
 
 
 // configuration de la base URL 
-const APÏ_BASE_URL = "http://localhost:5000/";
+const API_BASE_URL = "http://127.0.0.1:5000/";
 
 // service qui créer le lien avec le backend
 export const api = axios.create({
-    baseURL: APÏ_BASE_URL,
+    baseURL: API_BASE_URL,
     headers: { 'Content-Type': 'application/json' }
 });
 

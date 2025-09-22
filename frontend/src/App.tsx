@@ -1,28 +1,49 @@
-// src/App.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Navigation, { TabType } from './components/Navigation';
-import Semestres from './components/SemestreCard';
 import RessourceCard from './components/RessourceCard';
 import SAECard from './components/SAECard';
 import PlanningSemaine from './components/PlanningSemaine';
-// Importez vos autres composants d'onglets ici
+import SemestreCard from './components/SemestreCard';
+// import pour le backend API 
+import { Semestre } from './types/types';
+import { semestreAPI } from './services/api';
+import { useSemestres } from './hook/useSemestres';
 
 function App() {
   // État pour gérer l'onglet actif
   const [activeTab, setActiveTab] = useState<TabType>('semestres');
-  const [currentWeek] = useState(42); // Vous calculerez cela dynamiquement
+  const [currentWeek] = useState(42); // calcul dynamiquement
+
 
   // Fonction pour changer d'onglet
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
   };
 
+  // utilisation du custom hook 
+  const {
+    semestres,
+    loading,
+    error,
+    onCreate,
+    onEdit,
+    onDelete
+  } = useSemestres();
+
   // Fonction pour rendre le contenu selon l'onglet actif
   const renderTabContent = () => {
     switch (activeTab) {
       case 'semestres':
-        return <Semestres />;
+        return <SemestreCard
+          semestres={semestres}
+          // recuperation des HOOKS 
+          onEdit={onEdit}   
+          onDelete={onDelete}    
+          onCreate={onCreate}  
+          loading={loading}
+          error={error}
+        />;
       case 'ressources':
         return <RessourceCard />;
       case 'saes':
@@ -30,7 +51,15 @@ function App() {
       case 'planning':
         return <PlanningSemaine />;
       default:
-        return <Semestres />;;
+        return <SemestreCard
+          semestres={semestres}
+          // recuperation des HOOKS 
+          onEdit={onEdit}   
+          onDelete={onDelete}    
+          onCreate={onCreate}  
+          loading={loading}
+          error={error}
+        />;;
     }
   };
 
@@ -38,13 +67,13 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       {/* Header fixe */}
       <Header currentWeek={currentWeek} />
-      
+
       {/* Navigation par onglets */}
-      <Navigation 
-        activeTab={activeTab} 
-        onTabChange={handleTabChange} 
+      <Navigation
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
       />
-      
+
       {/* Contenu qui change selon l'onglet */}
       <main>
         {renderTabContent()}

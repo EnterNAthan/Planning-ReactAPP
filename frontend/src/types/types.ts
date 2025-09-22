@@ -1,7 +1,8 @@
 export interface Semestre{
     id: number;
-    nombre: string;
+    nom: string;
     annee: string;
+    actif: string;
 }
 
 export interface Ressource{
