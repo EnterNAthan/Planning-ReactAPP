@@ -29,6 +29,11 @@ export interface CreneauHoraire{
     type: 'ressource' | 'sae';
 }
 
+export interface SemaineData{
+    semaine: string,
+    creneaux: CreneauHoraire[];
+}
+
 
 // pour l'état de sélection
 export interface app {

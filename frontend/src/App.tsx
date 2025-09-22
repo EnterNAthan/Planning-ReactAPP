@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Navigation, { TabType } from './components/Navigation';
 import RessourceCard from './components/RessourceCard';
 import SAECard from './components/SAECard';
-import PlanningSemaine from './components/PlanningSemaine';
+import PlanningSemaine from './components/planning/PlanningSemaine';
 import SemestreCard from './components/SemestreCard';
 // import pour le backend API ainsi que les hooks
 import { Semestre } from './types/types';
@@ -78,8 +78,12 @@ function App() {
           error={saesError}
           semestres={semestres}
         />;
-      case 'planning':
-        return <PlanningSemaine />;
+        case 'planning':
+        return <PlanningSemaine
+          ressources={ressources}
+          saes={saes}
+          semestres={semestres}
+        />;
       default:
         return <SemestreCard
           semestres={semestres}
