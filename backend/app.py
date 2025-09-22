@@ -4,6 +4,7 @@ from data.database import db, init_db
 from routes.semestre_routes import semestre_bp  
 from routes.sae_routes import sae_bp
 from routes.ressource_routes import ressource_bp
+from routes.planning_routes import planning_bp
 
 def create_app():
     app = Flask(__name__)
@@ -22,7 +23,7 @@ def create_app():
     app.register_blueprint(semestre_bp)  # Ou sans prefix
     app.register_blueprint(sae_bp)
     app.register_blueprint(ressource_bp)
-    
+    app.register_blueprint(planning_bp)
     
     return app
 

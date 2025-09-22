@@ -33,7 +33,7 @@ const ListeCours: React.FC<ListeCoursProps> = ({
                 id: r.id,
                 nom: r.nom,
                 type: 'ressource' as const,
-                couleur: 'bg-gray-600'
+                couleur: 'bg-blue-500'
             }));
 
         const saesFiltrees = saes
@@ -42,7 +42,7 @@ const ListeCours: React.FC<ListeCoursProps> = ({
                 id: s.id,
                 nom: s.nom,
                 type: 'sae' as const,
-                couleur: 'bg-gray-800'
+                couleur: 'bg-green-500'
             }));
 
         return [...ressourcesFiltrees, ...saesFiltrees];
@@ -63,8 +63,8 @@ const ListeCours: React.FC<ListeCoursProps> = ({
         : [];
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-            <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="bg-white rounded-lg shadow-sm border p-4">
+            <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
                 📚 Cours à planifier
             </h3>
 
@@ -76,7 +76,7 @@ const ListeCours: React.FC<ListeCoursProps> = ({
                 <select
                     value={semestreSelectionne || ''}
                     onChange={(e) => onSemestreChange(Number(e.target.value))}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                     <option value="">Sélectionner un semestre</option>
                     {semestres.map(sem => (
@@ -106,7 +106,7 @@ const ListeCours: React.FC<ListeCoursProps> = ({
                             className={`
                 ${cours.couleur} text-white px-3 py-2 rounded-lg cursor-move
                 shadow-sm hover:shadow-md transition-all duration-200
-                hover:scale-105 select-none border border-gray-300
+                hover:scale-105 select-none
                 `}
                         >
                             <div className="flex items-center justify-between">
@@ -123,7 +123,7 @@ const ListeCours: React.FC<ListeCoursProps> = ({
                                             🎯 SAE
                                         </span>
                                     )}
-                                    <span className="text-lg text-gray-300">⋮⋮</span>
+                                    <span className="text-lg">⋮⋮</span>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@ const ListeCours: React.FC<ListeCoursProps> = ({
             )}
 
             {/* Instructions */}
-            <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+            <div className="mt-4 p-3 bg-gray-50 rounded-lg">
                 <div className="text-xs text-gray-600">
                     <div className="font-medium mb-1">💡 Comment utiliser :</div>
                     <ul className="space-y-1">

@@ -1,16 +1,15 @@
-// src/components/planning/PlanningSemaine.tsx
-import React from 'react';
+// src/components/planning/PlanningSemaine.tsx - VERSION AVEC PROPS
+import React, { useEffect } from 'react';
 import MiniCalendrier from './MiniCalendrier';
 import ListeCours from './ListeCours';
-// import GrillePlanning from './GrillePlanning'; // À créer après
+import GrilleSemaine from './GrilleSemaine';
 import { usePlanning } from '../../hook/usePlanning';
-import { useListeCours } from '../../hook/useListeCours';
-import { Ressource, SAE } from '../../types/types';
+import { Ressource, SAE, Semestre } from '../../types/types';
 
 interface PlanningSemaineProps {
   ressources: Ressource[];
   saes: SAE[];
-  semestres: any[];
+  semestres: Semestre[];
 }
 
 const PlanningSemaine: React.FC<PlanningSemaineProps> = ({
@@ -18,58 +17,74 @@ const PlanningSemaine: React.FC<PlanningSemaineProps> = ({
   saes,
   semestres
 }) => {
-  const planning = usePlanning();
-  const listeCours = useListeCours(ressources, saes);
+    const planning = usePlanning();
 
-  const handleSemaineChange = (numeroSemaine: number, annee: number) => {
-    planning.setSemaineSelectionnee(numeroSemaine);
-    planning.setAnneeSelectionnee(annee);
-  };
+    // Debug de l'état du semestre sélectionné
+    useEffect(() => {
+        console.log('🎯 Semestre sélectionné:', planning.semestreSelectionne);
+    }, [planning.semestreSelectionne]);
 
-  return (
-    <div className="h-screen flex bg-gray-50">
-      {/* COLONNE GAUCHE - 20% */}
-      <div className="w-1/5 bg-white shadow-sm border-r p-4 flex flex-col gap-4 overflow-y-auto">
-        {/* Mini calendrier */}
-        <MiniCalendrier
-          semaineSelectionnee={planning.semaineSelectionnee}
-          anneeSelectionnee={planning.anneeSelectionnee}
-          onSemaineChange={handleSemaineChange}
-          getTexteSemaine={planning.getTexteSemaine}
-          getNumeroSemaine={planning.getNumeroSemaine}
-        />
-
-        {/* Liste des cours */}
-        <ListeCours
-          ressources={ressources}
-          saes={saes}
-          semestres={semestres}
-          semestreSelectionne={listeCours.semestreSelectionne}
-          onSemestreChange={listeCours.setSemestreSelectionne}
-        />
-      </div>
-
-      {/* COLONNE DROITE - 80% */}
-      <div className="w-4/5 p-4">
-        <div className="bg-white rounded-lg shadow-sm border h-full">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800">
-              📅 {planning.getTexteSemaine(planning.semaineSelectionnee, planning.anneeSelectionnee)}
-            </h2>
-          </div>
-          
-          <div className="p-4 h-full">
-            {/* Ici sera la grille du planning */}
-            <div className="h-full bg-gray-50 rounded-lg flex items-center justify-center text-gray-500">
-              Grille de planning à créer...
-              <br />
-              <small>Semaine {planning.semaineSelectionnee}</small>
+    // src/components/planning/PlanningSemaine.tsx
+return (
+    <div className="min-h-screen bg-gray-50 p-4">
+        <div className="max-w-7xl mx-auto">
+            <div className="mb-6">
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    📅 Planning Semaine
+                </h1>
+                <p className="text-gray-600">
+                    Gérez votre planning hebdomadaire par drag & drop
+                </p>
+                {/* Debug info */}
+                <div className="mt-2 text-sm text-blue-600">
+                    🎯 Semestre: {planning.semestreSelectionne || 'Non sélectionné'} | 
+                    📅 {planning.getTexteSemaine(planning.semaineSelectionnee, planning.anneeSelectionnee)}
+                </div>
             </div>
-          </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-4 gap-4"> {/* Réduire gap de 6 à 4 */}
+                {/* Sidebar gauche - Plus compacte */}
+                <div className="xl:col-span-1">
+                    <div className="sticky top-4 space-y-3"> {/* Sticky pour garder visible + réduire space */}
+                        {/* Mini Calendrier - Plus compact */}
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3"> {/* Réduire padding */}
+                            <MiniCalendrier
+                                semaineSelectionnee={planning.semaineSelectionnee}
+                                anneeSelectionnee={planning.anneeSelectionnee}
+                                onSemaineChange={planning.changerSemaine}
+                                getTexteSemaine={planning.getTexteSemaine}
+                                getNumeroSemaine={planning.getNumeroSemaine}
+                            />
+                        </div>
+
+                        {/* Liste des cours - Directement après */}
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3"> {/* Réduire padding */}
+                            <ListeCours
+                                ressources={ressources}
+                                saes={saes}
+                                semestres={semestres}
+                                semestreSelectionne={planning.semestreSelectionne}
+                                onSemestreChange={planning.changerSemestre}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Grille principale */}
+                <div className="xl:col-span-3">
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <GrilleSemaine
+                            semaineSelectionnee={planning.semaineSelectionnee}
+                            anneeSelectionnee={planning.anneeSelectionnee}
+                            semestreSelectionne={planning.semestreSelectionne}
+                            getTexteSemaine={planning.getTexteSemaine}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  );
+);
 };
 
 export default PlanningSemaine;
