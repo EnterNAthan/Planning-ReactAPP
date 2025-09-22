@@ -13,7 +13,7 @@ const semestreFields: FormField[] = [
     label: 'Nom du semestre',
     type: 'text',
     required: true,
-    placeholder: 'Ex: Semestre 1'
+    placeholder: 'Ex: S1'
   },
   {
     name: 'annee',
@@ -119,14 +119,13 @@ function SemestreCard({ semestres, loading, error, onEdit, onDelete, onCreate }:
     <div className="space-y-6">
       {/* TITRE ET BOUTON EXISTANTS */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-gray-900 p-5">
           Gestion des semestres
         </h2>
-        <Button onClick={openCreateModal}>
+        <Button onClick={openCreateModal} className='mr-3'>
           Nouveau semestre
         </Button>
       </div>
-
       {/* CARD AVEC TABLEAU */}
       <Card className="w-full">
         <CardContent className="p-0">

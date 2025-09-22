@@ -8,7 +8,11 @@ from routes.ressource_routes import ressource_bp
 def create_app():
     app = Flask(__name__)
     # Configuration CORS - SOLUTION SIMPLE
-    CORS(app)
+    CORS(app, 
+        methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  # Toutes les méthodes
+        allow_headers=['Content-Type', 'Authorization'],      # Headers nécessaires
+        origins=['http://localhost:3001']                     # Votre frontend
+    )
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///planning.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
