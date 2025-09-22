@@ -5,10 +5,12 @@ import RessourceCard from './components/RessourceCard';
 import SAECard from './components/SAECard';
 import PlanningSemaine from './components/PlanningSemaine';
 import SemestreCard from './components/SemestreCard';
-// import pour le backend API 
+// import pour le backend API ainsi que les hooks
 import { Semestre } from './types/types';
 import { semestreAPI } from './services/api';
 import { useSemestres } from './hook/useSemestres';
+import { useRessources } from './hook/useRessources';
+import { useSAEs } from './hook/useSAES';
 
 function App() {
   // État pour gérer l'onglet actif
@@ -21,15 +23,27 @@ function App() {
     setActiveTab(tab);
   };
 
-  // utilisation du custom hook 
+  // utilisation du custom hook Semestres
+  const { semestres, loading, error, onCreate, onEdit, onDelete } = useSemestres();
+  // hook pour ressources
   const {
-    semestres,
-    loading,
-    error,
-    onCreate,
-    onEdit,
-    onDelete
-  } = useSemestres();
+    ressources,
+    loading: ressourcesLoading,
+    error: ressourcesError,
+    onCreate: onCreateRessource,
+    onEdit: onEditRessource,
+    onDelete: onDeleteRessource
+  } = useRessources();
+
+  const {
+    saes,
+    loading: saesLoading,
+    error: saesError,
+    onCreate: onCreateSAE,
+    onEdit: onEditSAE,
+    onDelete: onDeleteSAE
+  } = useSAEs();
+
 
   // Fonction pour rendre le contenu selon l'onglet actif
   const renderTabContent = () => {
@@ -38,25 +52,41 @@ function App() {
         return <SemestreCard
           semestres={semestres}
           // recuperation des HOOKS 
-          onEdit={onEdit}   
-          onDelete={onDelete}    
-          onCreate={onCreate}  
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onCreate={onCreate}
           loading={loading}
           error={error}
         />;
       case 'ressources':
-        return <RessourceCard />;
+        return <RessourceCard
+          ressources={ressources}
+          onEdit={onEditRessource}
+          onDelete={onDeleteRessource}
+          onCreate={onCreateRessource}
+          loading={ressourcesLoading}
+          error={ressourcesError}
+          semestres={semestres} // Passe les semestres pour les options
+        />;
       case 'saes':
-        return <SAECard />;
+        return <SAECard
+          saes={saes}
+          onEdit={onEditSAE}
+          onDelete={onDeleteSAE}
+          onCreate={onCreateSAE}
+          loading={saesLoading}
+          error={saesError}
+          semestres={semestres}
+        />;
       case 'planning':
         return <PlanningSemaine />;
       default:
         return <SemestreCard
           semestres={semestres}
           // recuperation des HOOKS 
-          onEdit={onEdit}   
-          onDelete={onDelete}    
-          onCreate={onCreate}  
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onCreate={onCreate}
           loading={loading}
           error={error}
         />;;

@@ -6,6 +6,7 @@ export interface Semestre{
 }
 
 export interface Ressource{
+    type_cours: any;
     id: number;
     nom: string;
     semestre_id: number;
@@ -16,6 +17,18 @@ export interface SAE{
     nom: string;
     semestre_id: number;
 }
+
+export interface CreneauHoraire{
+    id: string,
+    jour: 'lundi' | 'mardi' |'mercredi'| 'jeudi'| 'vendredi',
+    heureDebut: string,//"8:00"
+    heureFin: string,//"10:00"
+    ressourceId?: number;
+    saesId?: number;
+    semaine: string; //semaine 45
+    type: 'ressource' | 'sae';
+}
+
 
 // pour l'état de sélection
 export interface app {
