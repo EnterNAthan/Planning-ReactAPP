@@ -92,9 +92,8 @@ const MiniCalendrier: React.FC<MiniCalendrierProps> = ({
                             <button
                                 key={index}
                                 onClick={() => onSemaineChange(numeroSemaineJour, jour.getFullYear())}
-                                className={`
-                  h-7 text-xs rounded flex items-center justify-center transition-colors
-                  ${isSelected
+                                className={`h-7 text-xs rounded flex items-center justify-center transition-colors
+                                        ${isSelected
                                         ? 'bg-gray-900 text-white'
                                         : 'hover:bg-gray-100 text-gray-700'
                                     }

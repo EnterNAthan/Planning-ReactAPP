@@ -1,3 +1,4 @@
+// interfaces pour les types de données
 export interface Semestre{
     id: number;
     nom: string;
