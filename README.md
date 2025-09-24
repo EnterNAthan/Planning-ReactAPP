@@ -2,8 +2,8 @@
 
 > **Projet développé de A à Z** : De l'idée initiale au déploiement en production, en passant par tous les défis techniques rencontrés et résolus.
 
-[![Démo Live](https://img.shields.io/badge/Démo-Live%20Demo-brightgreen)](https://TON_USERNAME.github.io/planning-iut-annecy/)
-[![GitHub Pages](https://github.com/TON_USERNAME/planning-iut-annecy/workflows/Deploy/badge.svg)](https://github.com/TON_USERNAME/planning-iut-annecy/actions)
+[![Démo Live](https://img.shields.io/badge/Démo-Live%20Demo-brightgreen)](https://enternathan.github.io/Planning-ReactAPP/)
+[![GitHub Pages](https://enternathan.github.io/Planning-ReactAPP/workflows/Deploy/badge.svg)](https://enternathan.github.io/Planning-ReactAPP/)
 
 ## Vue d'ensemble
 
