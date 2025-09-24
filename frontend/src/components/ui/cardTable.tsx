@@ -22,7 +22,6 @@ export function SemestreTable({ data, onEdit, onDelete, emptyMessage = "Aucune d
                     <th className="text-left py-3 px-6 font-semibold text-gray-900">Actions</th>
                 </tr>
             </thead>
-
             {/* CORPS DU TABLEAU */}
             <tbody>
                 {/* test si diff de 0  */}
